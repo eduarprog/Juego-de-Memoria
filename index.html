@@ -1,0 +1,171 @@
+<!--Creador: Eduardo Sanchez Baez by MoodProgrammer
+
+---> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="icon" type="image/png" href="img/Logo1.1.png">
+    <title>Juego de memoria</title>
+
+<style> 
+.container{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.cuerpo{
+    text-align: center;
+    color: green;
+}
+
+#main_cont{
+    background: #cccccc;
+    border: double 5px gray;
+    border-radius: 10px;
+    padding: 50px;
+    display: grid;
+    min-width: 1000px;
+    grid-template-columns: repeat(6,1fr);
+    justify-content: center;
+
+}
+
+
+#main_cont div{
+       width: 150px;
+       height: 150px;
+       border: solid 2px black;
+       margin: 5px;
+       border-radius: 5px;
+       background: white;
+       text-align: center;
+}
+
+
+#main_cont div:hover{
+    background: red;
+    cursor: pointer;
+}
+
+
+.img_premio{
+    width: 110px;
+    height: 110px;
+    margin-top: 30px;
+
+}
+
+.img_premio{
+    visibility: hidden;
+}
+
+
+</style>
+
+</head>
+<body onload="initGame();">
+    <div class="container">
+        <header>
+            <h2>Bienvenido al juego</h2>
+            <br>
+            <p>Ubica las imagenes iguales, solo utilizando tu memoria.</p>
+            <div class="cuerpo">
+                <h3>Vidas: 3</h3>
+            </div>
+            <br>
+        </header>
+<container id="main_cont">
+
+</container>
+    </div>
+
+    <script>
+               
+               function _gid(idx){
+                   return document.getElementById(idx);
+               }
+
+               function _dce(elem){
+                   return document.createElement(elem);
+               }
+                
+                imagenesVisibles = 0;
+                imagenAnterior = false;
+          
+
+                  function comprobar(obj){
+                      index = obj.getAttribute('imagen');
+                      imagen = _gid('imagen'+index);
+                      visible = imagen.getAttribute('visible');
+                      if(!visible == '0'){
+                          imagen.style.visibility = 'visible';
+                          imagen.setAttribute('visible', 1);
+                          imagenesVisibles++;
+                          if(!imagenAnterior){
+                            imagenAnterior = imagen;
+                          }
+                      }
+   
+
+                       setTimeout(() =>{
+                      if(imagenesVisibles > 1){
+                    if(imagenAnterior.getAttribute('src') ==  imagen.getAttribute('src')){
+                        alert('Felicidades!!, son iguales')
+                        imagenAnterior = false;
+                        imagenesVisibles = 0;
+                        imagenAnterior.parentNode.setAttribute.removeAttribute('onclick');
+                        imagen.parentNode.removeAttribute('onclick');
+                    }else{
+                        alert('No son iguales, siga intentando!')
+                        imagen.style.visibility = 'hidden';
+                        imagen.setAttribute('visible', 0);
+                        imagenAnterior.style.visibility = 'hidden';
+                        imagenAnterior.setAttribute('visible', 0);
+                    }
+                            
+                            imagenesVisibles = 0;
+                            imagenAnterior = false;
+                      }
+
+                    },300);
+                  }
+
+
+
+
+          function initGame(){
+              destino = _gid('main_cont');
+              destino.innerHTML = '';
+
+                var fotos = [0,1,2,3,4,5,0,1,2,3,4,5];
+                fotos = fotos.sort(() => .5 - Math.random());
+
+                  fotos.map((prop, index) => {
+                       x = fotos[index];
+                       div = _dce('div');
+                       div.setAttribute('imagen', index);
+                       div.setAttribute('onclick', 'comprobar(this)');
+                  
+
+                  div.innerHTML = `
+                  
+                  
+                  <img  visible="0"   id="imagen${index}" src="img/${x}.png" class="img_premio"/>
+               
+                  `;
+                  destino.appendChild(div);
+              });
+          }
+
+    </script>
+    <br>
+    <hr>
+    <h6>Derechos Reservados © </h6>
+</body>
+</html>
